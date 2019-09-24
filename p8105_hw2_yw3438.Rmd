@@ -1,0 +1,13 @@
+---
+title: "p8105_hw2_yw3438"
+author: "Yuning Wang"
+date: "9/24/2019"
+output: github_document
+---
+
+```{r setup, message=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+```
+
