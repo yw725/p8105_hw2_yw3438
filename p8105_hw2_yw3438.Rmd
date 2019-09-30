@@ -22,7 +22,7 @@ mr_trash_wheel = read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx"
                             range = "A2:N338" ) %>%
   janitor::clean_names() %>%
   drop_na(dumpster) %>%
-  mutate(sports_balls = as.integer(round(sports_balls)))
+  mutate(sports_balls = as.integer(sports_balls))
 
 # Import the data in precipitation data for 2018
 pcptt_2018 = read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx",
@@ -45,13 +45,13 @@ pcptt_1718 = full_join(pcptt_2017, pcptt_2018) %>%
   mutate(month = month.name[month])
 ```
 
-**After reading and cleaning the data in Mr. Trash Wheel sheet, there are 285 obs. of 14 variables. The variables contains in data "mr_trash_wheel" include "dumpster", "month", "year", "sports_balls", etc., among which all the numbers in "sports_balls" have been transformed into integers.**
+**After reading and cleaning the data in Mr. Trash Wheel sheet, there are 285 obs. of 14 variables. The variables contains in data "mr_trash_wheel" include "dumpster", "month", "year", "sports_balls", etc., among which all the numbers in "sports_balls" have been transformed into integers.
 
-**After reading and cleaning the data in 2018 Precipitation, there are 8 obs. of 3 variables including "month", "year" and "total". After reading and cleaning the data in 2017 Precipitation, there are 13 obs. of 3 variables including "month", "year" and "total".**
+**After reading and cleaning the data in 2018 Precipitation, there are 8 obs. of 3 variables including "month", "year" and "total". After reading and cleaning the data in 2017 Precipitation, there are 13 obs. of 3 variables including "month", "year" and "total".
 
-**After combing the datasets of 2018 Precipitation and 2017 Precipitation, the new datasets include 21 obs. of 3 variables including "month", "year" and "total".**
+**After combing the datasets of 2018 Precipitation and 2017 Precipitation, the new datasets include 21 obs. of 3 variables including "month", "year" and "total".
 
-**The total precipitation in 2018 is `r sum(pcptt_2018 %>% drop_na(month) %>% pull(total))` and the median number of sports_balls in 2017 is  `r median(mr_trash_wheel %>% filter(year == "2017") %>% pull(sports_balls))`**
+**The total precipitation in 2018 is `r sum(pcptt_2018 %>% drop_na(month) %>% pull(total))` and the median number of sports_balls in 2017 is  `r median(mr_trash_wheel %>% filter(year == "2017") %>% pull(sports_balls))`
 
 
 ## Problem 2
@@ -90,15 +90,15 @@ unemployment = read_csv("./data/fivethirtyeight_datasets/unemployment.csv") %>%
                              by = c("month", "year"))
 ```
 
-**The pol_month dataset contains `r nrow(pol_month)` rows and `r ncol(pol_month)` colomns. The range of years in pol_month dataset is from `r range(pull(pol_month, year))[1]` to `r range(pull(pol_month, year))[2]`. The names of key variables in pol_month are "`r names(pol_month)`".**
+**The pol_month dataset contains `r nrow(pol_month)` rows and `r ncol(pol_month)` colomns. The range of years in pol_month dataset is from `r range(pull(pol_month, year))[1]` to `r range(pull(pol_month, year))[2]`. The names of key variables in pol_month are "`r names(pol_month)`".
 
-**The snp dataset contains `r nrow(snp)` rows and `r ncol(snp)` colomns. The range of years in pol_month dataset is from `r range(pull(snp, year))[1]` to `r range(pull(snp, year))[2]`. The names of key variables in pol_month are "`r names(snp)`".**
+**The snp dataset contains `r nrow(snp)` rows and `r ncol(snp)` colomns. The range of years in pol_month dataset is from `r range(pull(snp, year))[1]` to `r range(pull(snp, year))[2]`. The names of key variables in pol_month are "`r names(snp)`".
 
-**The unemployment dataset contains `r nrow(unemployment)` rows and `r ncol(unemployment)` colomns. The range of years in pol_month dataset is from `r range(pull(unemployment, year))[1]` to `r range(pull(unemployment, year))[2]`. The names of key variables in pol_month are "`r names(unemployment)`".**
+**The unemployment dataset contains `r nrow(unemployment)` rows and `r ncol(unemployment)` colomns. The range of years in pol_month dataset is from `r range(pull(unemployment, year))[1]` to `r range(pull(unemployment, year))[2]`. The names of key variables in pol_month are "`r names(unemployment)`".
 
-**After merging snp and pol_month, the new dataset, snp_pol, contains `r nrow(snp_pol)` rows and `r ncol(snp_pol)` colomns. The range of years in pol_month dataset is from `r range(pull(snp_pol, year))[1]` to `r range(pull(snp_pol, year))[2]`. The names of key variables in pol_month are "`r names(snp_pol)`".**
+**After merging snp and pol_month, the new dataset, snp_pol, contains `r nrow(snp_pol)` rows and `r ncol(snp_pol)` colomns. The range of years in pol_month dataset is from `r range(pull(snp_pol, year))[1]` to `r range(pull(snp_pol, year))[2]`. The names of key variables in pol_month are "`r names(snp_pol)`".
 
-**After merging snp_pol and unemployment, the new dataset, snp_pol_unempl, contains `r nrow(snp_pol_unempl)` rows and `r ncol(snp_pol_unempl)` colomns. The range of years in pol_month dataset is from `r range(pull(snp_pol_unempl, year))[1]` to `r range(pull(snp_pol_unempl, year))[2]`. The names of key variables in pol_month are "`r names(snp_pol_unempl)`".**
+**After merging snp_pol and unemployment, the new dataset, snp_pol_unempl, contains `r nrow(snp_pol_unempl)` rows and `r ncol(snp_pol_unempl)` colomns. The range of years in pol_month dataset is from `r range(pull(snp_pol_unempl, year))[1]` to `r range(pull(snp_pol_unempl, year))[2]`. The names of key variables in pol_month are "`r names(snp_pol_unempl)`".
 
 
 
