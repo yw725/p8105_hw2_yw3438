@@ -45,11 +45,12 @@ pcptt_1718 = full_join(pcptt_2017, pcptt_2018) %>%
   mutate(month = month.name[month])
 ```
 
-**After reading and cleaning the data in Mr. Trash Wheel sheet, there are 285 obs. of 14 variables. The variables contains in data "mr_trash_wheel" include "dumpster", "month", "year", "sports_balls", etc., among which all the numbers in "sports_balls" have been transformed into integers.
+**After reading and cleaning the data in Mr. Trash Wheel sheet, there are `r dim(mr_trash_wheel)[1]` observations of `r dim(mr_trash_wheel)[2]` variables in the dataset. The variables include "`r names(mr_trash_wheel)`", among which all the numbers in "sports_balls" have been transformed into integers.
 
-**After reading and cleaning the data in 2018 Precipitation, there are 8 obs. of 3 variables including "month", "year" and "total". After reading and cleaning the data in 2017 Precipitation, there are 13 obs. of 3 variables including "month", "year" and "total".
+**After reading and cleaning the data in 2018 Precipitation, there are `r dim(pcptt_2018)[1]` observations of `r dim(pcptt_2018)[2]` variables in the dataset "pcptt_2018". The variables include "`r names(pcptt_2018)`".
 
-**After combing the datasets of 2018 Precipitation and 2017 Precipitation, the new datasets include 21 obs. of 3 variables including "month", "year" and "total".
+**After reading and cleaning the data in 2017 Precipitation, there are `r dim(pcptt_2017)[1]` observations of `r dim(pcptt_2017)[2]` variables in the dataset "pcptt_2017". The variables include "`r names(pcptt_2017)`".
+
 
 **The total precipitation in 2018 is `r sum(pcptt_2018 %>% drop_na(month) %>% pull(total))` and the median number of sports_balls in 2017 is  `r median(mr_trash_wheel %>% filter(year == "2017") %>% pull(sports_balls))`
 
@@ -65,8 +66,9 @@ pol_month = read_csv("./data/fivethirtyeight_datasets/pols-month.csv") %>%
                names_to = "president",
                names_prefix = "prez_") %>%
   select(-day) %>%
-  filter(value == 1) %>%
+  filter(value %in% c(1, 2)) %>%
   select(-value)
+# In pol_month, the prez_gop data has a value of "2". These values are considered to be same as "1" in this case as they both show that they won.
 
 # Read the data in snp.csv
 snp = read_csv("./data/fivethirtyeight_datasets/snp.csv") %>%
