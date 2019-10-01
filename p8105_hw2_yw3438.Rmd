@@ -31,6 +31,7 @@ pcptt_2018 = read_excel("./data/Trash-Wheel-Collection-Totals.xlsx",
   janitor::clean_names() %>%
   mutate(year = "2018") %>%
   drop_na(total)
+pcptt_2018
 
 # Import the data in precipitation data for 2017
 pcptt_2017 = read_excel("./data/Trash-Wheel-Collection-Totals.xlsx",
@@ -39,10 +40,12 @@ pcptt_2017 = read_excel("./data/Trash-Wheel-Collection-Totals.xlsx",
   janitor::clean_names() %>%
   mutate(year = "2017") %>%
   drop_na(total)
+pcptt_2017
 
 # Combine precipitation datasets
 pcptt_1718 = full_join(pcptt_2017, pcptt_2018) %>%
   mutate(month = month.name[month])
+pcptt_1718
 ```
 
 After reading and cleaning the data in Mr. Trash Wheel sheet, there are `r nrow(mr_trash_wheel)[1]` observations of `r ncol(mr_trash_wheel)` variables in the dataset. The variables include "`r names(mr_trash_wheel %>% select(dumpster:glass_bottles))`", among which all the numbers in "sports_balls" have been transformed into integers.
@@ -69,6 +72,8 @@ pol_month = read_csv("./data/fivethirtyeight_datasets/pols-month.csv") %>%
   select(-day) %>%
   filter(value %in% c(1, 2)) %>%
   select(-value)
+pol_month
+
 # In pol_month, the prez_gop data has a value of "2". These values are considered to be same as "1" in this case as they both show that they won.
 
 # Read the data in snp.csv
@@ -77,6 +82,7 @@ snp = read_csv("./data/fivethirtyeight_datasets/snp.csv") %>%
   separate(date, into = c("month", "day", "year"), sep = "/") %>%
   mutate(month = month.name[as.numeric(month)]) %>%
   arrange(year, month)
+snp
 
 # Read and tidy unemployment data
 unemployment = read_csv("./data/fivethirtyeight_datasets/unemployment.csv") %>%
@@ -85,12 +91,14 @@ unemployment = read_csv("./data/fivethirtyeight_datasets/unemployment.csv") %>%
                names_to = "month") %>%
   mutate(month = month.name[factor(month)]) %>%
   mutate(year = as.character(year))
+unemployment
   
 # Merging snp into pol_month
   snp_pol = left_join(pol_month, snp, by = c("month", "year"))
 # Merging unemployment data into one dataset
   snp_pol_unempl = left_join(snp_pol, unemployment, 
                              by = c("month", "year"))
+  snp_pol_unempl
 ```
 
 The pol_month dataset contains `r nrow(pol_month)` rows and `r ncol(pol_month)` colomns. The range of years in pol_month dataset is from `r range(pull(pol_month, year))[1]` to `r range(pull(pol_month, year))[2]`. The names of key variables in pol_month are "`r names(pol_month)`".
@@ -108,6 +116,7 @@ After merging snp_pol and unemployment, the new dataset, snp_pol_unempl, contain
 ## Problem 3
 
 ```{r message=FALSE}
+# Read the data
 baby_names = read_csv("./data/Popular_Baby_Names.csv") %>%
   janitor::clean_names() %>%
   mutate(ethnicity = recode(ethnicity, 
@@ -126,6 +135,7 @@ olivia_rank = baby_names %>%
     values_from = "rank",
     id_cols = ethnicity
     )
+olivia_rank
 
 # Figure out the most popular name among male children over time
 boy_name = baby_names %>%
@@ -134,7 +144,8 @@ boy_name = baby_names %>%
   pivot_wider(
     names_from = "year_of_birth",
     values_from = "childs_first_name")
- 
+boy_name
+
 # Draw a scatter plot
 m_wnh_2016 = baby_names %>%
   filter(gender == "MALE",
