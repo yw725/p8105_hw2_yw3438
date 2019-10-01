@@ -17,15 +17,15 @@ library(ggridges)
 ## Problem 1
 ```{r message=FALSE}
 # Import the data in Mr. Trash Wheel sheet
-mr_trash_wheel = read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx",
+mr_trash_wheel = read_excel("./data/Trash-Wheel-Collection-Totals.xlsx",
                             sheet = "Mr. Trash Wheel",
-                            range = "A2:N338" ) %>%
+                            skip = 1) %>%
   janitor::clean_names() %>%
   drop_na(dumpster) %>%
   mutate(sports_balls = as.integer(sports_balls))
 
 # Import the data in precipitation data for 2018
-pcptt_2018 = read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx",
+pcptt_2018 = read_excel("./data/Trash-Wheel-Collection-Totals.xlsx",
                         sheet = "2018 Precipitation",
                         skip = 1) %>%
   janitor::clean_names() %>%
@@ -33,7 +33,7 @@ pcptt_2018 = read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx",
   drop_na(total)
 
 # Import the data in precipitation data for 2017
-pcptt_2017 = read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx",
+pcptt_2017 = read_excel("./data/Trash-Wheel-Collection-Totals.xlsx",
                         sheet = "2017 Precipitation",
                         skip = 1) %>%
   janitor::clean_names() %>%
@@ -45,9 +45,9 @@ pcptt_1718 = full_join(pcptt_2017, pcptt_2018) %>%
   mutate(month = month.name[month])
 ```
 
-After reading and cleaning the data in Mr. Trash Wheel sheet, there are `r dim(mr_trash_wheel)[1]` observations of `r dim(mr_trash_wheel)[2]` variables in the dataset. The variables include "`r names(mr_trash_wheel)`", among which all the numbers in "sports_balls" have been transformed into integers.
+After reading and cleaning the data in Mr. Trash Wheel sheet, there are `r nrow(mr_trash_wheel)[1]` observations of `r ncol(mr_trash_wheel)` variables in the dataset. The variables include "`r names(mr_trash_wheel %>% select(dumpster:glass_bottles))`", among which all the numbers in "sports_balls" have been transformed into integers.
 
-After reading and cleaning the data in 2018 Precipitation, there are `r dim(pcptt_2018)[1]` observations of `r dim(pcptt_2018)[2]` variables in the dataset "pcptt_2018". The variables include "`r names(pcptt_2018)`".
+After reading and cleaning the data in 2018 Precipitation, there are `r nrow(pcptt_2018)` observations of `r ncol(pcptt_2018)` variables in the dataset "pcptt_2018". The variables include "`r names(pcptt_2018)`".
 
 After reading and cleaning the data in 2017 Precipitation, there are `r dim(pcptt_2017)[1]` observations of `r dim(pcptt_2017)[2]` variables in the dataset "pcptt_2017". The variables include "`r names(pcptt_2017)`".
 
@@ -129,20 +129,12 @@ olivia_rank = baby_names %>%
 
 # Figure out the most popular name among male children over time
 boy_name = baby_names %>%
-  filter(gender == "MALE") %>%
-  group_by(childs_first_name) %>%
-  summarise(count = sum(count)) %>%
-  filter(count == max(count))
-# Make the table showing the rank in popularity among male baby over time
-ethan_rank = baby_names %>%
-  filter(gender == "MALE" & 
-           childs_first_name == pull(boy_name, childs_first_name)) %>%
+  filter(gender == "MALE", rank == 1) %>%
+  select(-gender, -count, -rank) %>%
   pivot_wider(
     names_from = "year_of_birth",
-    values_from = "rank",
-    id_cols = ethnicity
-    )
-
+    values_from = "childs_first_name")
+ 
 # Draw a scatter plot
 m_wnh_2016 = baby_names %>%
   filter(gender == "MALE",
