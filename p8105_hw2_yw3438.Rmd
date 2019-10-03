@@ -23,6 +23,7 @@ mr_trash_wheel = read_excel("./data/Trash-Wheel-Collection-Totals.xlsx",
   janitor::clean_names() %>%
   drop_na(dumpster) %>%
   mutate(sports_balls = as.integer(sports_balls))
+mr_trash_wheel
 
 # Import the data in precipitation data for 2018
 pcptt_2018 = read_excel("./data/Trash-Wheel-Collection-Totals.xlsx",
@@ -139,7 +140,7 @@ olivia_rank
 
 # Figure out the most popular name among male children over time
 boy_name = baby_names %>%
-  filter(gender == "MALE", rank == 1) %>%
+  filter(gender == "MALE", rank == "1") %>%
   select(-gender, -count, -rank) %>%
   pivot_wider(
     names_from = "year_of_birth",
